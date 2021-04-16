@@ -1,5 +1,9 @@
 import SignIn from './SignIn.js';
 import SignUp from './SignUp.js';
+import Home from './Home/Home.js';
+import Navbar from './Home/Navbar.js';
+import Librarian from './Librarian/Librarian.js';
+import AddBook from './Librarian/AddBook.js';
 import PrivateRoute from './PrivateRoute';
 import { AuthProvider } from "../contexts/AuthContext"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
@@ -11,11 +15,16 @@ function App() {
       <div>
         <Router>
           <AuthProvider>
+          <Navbar/>
             <Switch>
-              <PrivateRoute exact path="/" component={SignUp} />
+              <PrivateRoute exact path="/" component={Home} />
               {/*<PrivateRoute path="/update-profile" component={UpdateProfile} />*/}
-              <Route path="/signup" component={SignUp} />
+              <Route path="/sign-up" component={SignUp} />
               <Route path="/signin" component={SignIn} />
+              <Route path="/home" component={Home} />
+              <Route path="/librarian/add-book" component={AddBook} />
+              <Route path="/librarian" component={Librarian} />
+              
             </Switch>
           </AuthProvider>
         </Router>

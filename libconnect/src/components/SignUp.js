@@ -67,7 +67,7 @@ export default function SignUp() {
       setError("")
       setLoading(true)
       await signup(emailID, password_one)
-      history.push("/")
+      //history.push("/")
       const DatabaseRef = firebase.database().ref("users");
       const dict = {
         username: Username,

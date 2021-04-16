@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useRef, useState } from "react"
 import { Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import { Link, useHistory, Redirect } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +50,7 @@ export default function SignIn() {
   const passwordRef = useRef()
   const { login } = useAuth()
   const [error, setError] = useState("")
+  const [loggedIn, setLoggedIn] = useState(false)
   const [loading, setLoading] = useState(false)
   const history = useHistory()
 
@@ -61,11 +62,15 @@ export default function SignIn() {
       setLoading(true)
       await login(emailID, password_one)
       history.push("/")
+      setLoggedIn(true)
+      
     } catch {
       setError("Failed to log in")
     }
-
+    //this.setState({loggedIn: true, loading: false})
+    
     setLoading(false)
+    
   }
 
   return (
@@ -84,6 +89,7 @@ export default function SignIn() {
               <center>Please Sign In</center>
           </Typography>
           {error && <Alert variant="danger">{error}</Alert>}
+          {loggedIn && <Redirect to="/home" />}
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               value={emailID}
@@ -130,7 +136,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link to='/signup' variant="body2">
+                <Link to='/sign-up' variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
