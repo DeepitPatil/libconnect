@@ -188,27 +188,27 @@ export default function SignUp() {
               input={<BootstrapInput />}
             >
                 <option aria-label="None" value="" >Genre</option>
-                <option value="fantasy">Fantasy</option>
-                <option value="sciencefiction">Science Fiction</option>
-                <option value="dystopian">Dystopian</option>
-                <option value="actionadventure">Action & Adventure</option>
-                <option value="mystery">Mystery</option>
-                <option value="horror">Horror</option>
-                <option value="thrillersuspense">Thriller & Suspense</option>
-                <option value="graphicnovel">Graphic Novel</option>
-                <option value="fiction">Fiction</option>
-                <option value="romance">Romance</option>
-                <option value="poetry">Poetry</option>
-                <option value="biography">Biography</option>
-                <option value="children">Children</option>
-                <option value="selfhelp">Self Help</option>
-                <option value="travel">Travel</option>
-                <option value="history">History</option>
-                <option value="truecrime">True Crime</option>
-                <option value="humour">Humour</option>
-                <option value="religionspirituality">Religion & Spirituality</option>
-                <option value="sciencetechnology">Science & Technology</option>
-                <option value="humanities">Humanities</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Science Fiction">Science Fiction</option>
+                <option value="Dystopian">Dystopian</option>
+                <option value="Action & Adventure">Action & Adventure</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Horror">Horror</option>
+                <option value="Thriller & Suspense">Thriller & Suspense</option>
+                <option value="Graphic Novel">Graphic Novel</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Romance">Romance</option>
+                <option value="Poetry">Poetry</option>
+                <option value="Biography">Biography</option>
+                <option value="Children">Children</option>
+                <option value="Self Help">Self Help</option>
+                <option value="Travel">Travel</option>
+                <option value="History">History</option>
+                <option value="Crime">Crime</option>
+                <option value="Humour">Humour</option>
+                <option value="Religion & Spirituality">Religion & Spirituality</option>
+                <option value="Science & Technology">Science & Technology</option>
+                <option value="Humanities">Humanities</option>
             </NativeSelect>
             <TextField
               value={publisher}

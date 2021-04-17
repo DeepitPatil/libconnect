@@ -10,9 +10,6 @@ function HeroSection() {
       <video src={bookVideo} autoPlay loop muted />
       <h1>Welcome to LibConnect</h1>
       <p>“Today a reader, tomorrow a leader.” – Margaret Fuller</p>
-      <div className='hero-btns'>
-        
-      </div>
     </div>
   );
 }

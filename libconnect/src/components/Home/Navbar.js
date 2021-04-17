@@ -30,7 +30,7 @@ function Navbar() {
     <>
       <nav className='navbar'>
         <div className='navbar-container'>
-          <Link className='navbar-logo' style={{ textDecoration: 'none' }}>
+          <Link className='navbar-logo' style={{ textDecoration: 'none', color: 'white' }}>
             LibConnect
             <i class='fab fa-typo3' />
           </Link>
@@ -39,7 +39,7 @@ function Navbar() {
           </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <li className='nav-item'>
-              <Link to='/' className='nav-links' onClick={closeMobileMenu} style={{ textDecoration: 'none' }}>
+              <Link to='/' className='nav-links' onClick={closeMobileMenu} style={{ textDecoration: 'none', color: 'white' }}>
                 Home
               </Link>
             </li>
@@ -47,7 +47,7 @@ function Navbar() {
               <Link
                 to='/services'
                 className='nav-links'
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: 'none', color: 'white' }}
                 onClick={closeMobileMenu}
               >
                 Services
@@ -57,7 +57,7 @@ function Navbar() {
               <Link
                 to='/librarian'
                 className='nav-links'
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: 'none', color: 'white'}}
                 onClick={closeMobileMenu}
               >
                 Librarian
