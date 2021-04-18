@@ -22,12 +22,14 @@ class Books extends Component {
         
              post.once('value', snap => {
                snap.forEach(child => {
+                if(child.val().title.toString().toLowerCase().includes(this.props.search.toLowerCase()) || child.val().author.toString().toLowerCase().includes(this.props.search.toLowerCase())){
                    this.setState({
                     titles: this.state.titles.concat([child.val().title]),
                     authors: this.state.authors.concat([child.val().author]),
                     coverurls: this.state.coverurls.concat([child.val().coverurl]),
                     isbns: this.state.isbns.concat([child.val().isbn]),
                    });
+                  }
         
                    const postList = this.state.isbns.map((dataList, index) =>
                    <Grid item>

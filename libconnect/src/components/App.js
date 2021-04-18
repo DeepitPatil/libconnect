@@ -22,7 +22,7 @@ function App() {
               {/*<PrivateRoute path="/update-profile" component={UpdateProfile} />*/}
               <Route path="/sign-up" component={SignUp} />
               <Route path="/signin" component={SignIn} />
-              <Route path="/home" component={Home} />
+              <Route path="/home/:search" component={Home} />
               <Route path="/books/:isbn" component={BookInfo} />
               <Route path="/librarian/add-book" component={AddBook} />
               <Route path="/librarian" component={Librarian} />
