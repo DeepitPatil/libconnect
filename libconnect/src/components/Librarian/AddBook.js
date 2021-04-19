@@ -173,7 +173,7 @@ export default function SignUp() {
               required
               fullWidth
               id="ISBN"
-              label="ISBN"
+              label="ISBN-13"
               name="ISBN"
             />
             <NativeSelect

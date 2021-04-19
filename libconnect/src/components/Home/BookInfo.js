@@ -18,6 +18,7 @@ class BookInfo extends Component {
             quantity: 0,
             availability: 0,
             genre: "",
+            isbn: ""
           };
     };
 
@@ -36,6 +37,7 @@ class BookInfo extends Component {
                 coverurl: snapshot.child("coverurl").val(),
                 quantity: snapshot.child("quantity").val(),
                 availability: snapshot.child("availability").val(),
+                isbn: snapshot.child("isbn").val(),
                });
         });
     }
@@ -58,6 +60,7 @@ class BookInfo extends Component {
                             <p style={{margin: "50px 0 0 0", maxWidth: "40vw"}}>
                                 <h1 style={{textAlign: "left"}}>{this.state.title}</h1><br/>
                                 <h3>{"by "+this.state.author}</h3><br/>
+                                <h5 >{"ISBN-13 : "+this.state.isbn}</h5><br/>
                                 <h4 >{this.state.genre}</h4><br/>
                                 <h7>{this.state.summary}</h7><br/><br/>
                                 <h5 >{this.state.availability+" books available in "+this.state.location}</h5>

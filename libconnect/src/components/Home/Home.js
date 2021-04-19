@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import HeroSection from './HeroSection.js'
-import BookCard from './BookCard.js'
 import '../App.css';
 import './HeroSection.css';
 import bookVideo from './book.mp4'
@@ -10,7 +8,7 @@ import { Grid, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import firebase from '../../firebase'
 import "firebase/database";
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,14 +29,10 @@ export default function Home(props){
     s = ""
   else
     s = props.match.params.search.substring(2)
-  console.log(s==="")
   const [search, setSearch] = useState(s);
   const [post, setPost] = useState(<Books search={s}/>)
   const [searched, setSearched] = useState(false);
-
-  function handleSearch() {
-
-  }
+  const history = useHistory();
   
     return(
         <div>
@@ -55,7 +49,9 @@ export default function Home(props){
                 setSearched(true)
               }}
               placeholder="Search title or author"
-              onRequestSearch={(e)=>window.location.reload()}
+              onRequestSearch={(e)=>{
+                window.location.reload()
+              }}
               onCancelSearch={(e)=>{
                 setSearch("")
                 setSearched(true)

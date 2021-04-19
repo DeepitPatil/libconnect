@@ -5,8 +5,8 @@ import CardItem from './CardItem';
 function Librarian() {
   return (
     <div className='cards'>
-        <br/>
-      <h1>Managing a Library has never been easier!</h1>
+        
+      <h1><br/><br/>Managing a Library has never been easier!</h1>
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>

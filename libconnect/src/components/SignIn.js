@@ -9,6 +9,7 @@ import React, { useRef, useState } from "react"
 import { Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory, Redirect } from "react-router-dom"
+import { auth } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,13 +62,12 @@ export default function SignIn() {
       setError("")
       setLoading(true)
       await login(emailID, password_one)
-      history.push("/")
       setLoggedIn(true)
       
     } catch {
       setError("Failed to log in")
     }
-    //this.setState({loggedIn: true, loading: false})
+    
     
     setLoading(false)
     
@@ -89,7 +89,7 @@ export default function SignIn() {
               <center>Please Sign In</center>
           </Typography>
           {error && <Alert variant="danger">{error}</Alert>}
-          {loggedIn && <Redirect to="/home" />}
+          {loggedIn && <Redirect to="/home/s=" />}
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               value={emailID}

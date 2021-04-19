@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
   }
 
   function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password)
+    return auth.signInWithEmailAndPassword(email, password);
   }
 
   function logout() {
@@ -33,6 +33,10 @@ export function AuthProvider({ children }) {
 
   function updatePassword(password) {
     return currentUser.updatePassword(password)
+  }
+
+  function updateProf(dispName) {
+    return currentUser.updateProfile({displayName: dispName})
   }
 
   useEffect(() => {
@@ -52,7 +56,8 @@ export function AuthProvider({ children }) {
     logout,
     resetPassword,
     updateEmail,
-    updatePassword
+    updatePassword,
+    updateProf
   }
 
   return (

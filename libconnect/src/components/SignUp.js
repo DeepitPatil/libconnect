@@ -50,7 +50,7 @@ export default function SignUp() {
   const [password_two, setPasswordTwo] = useState('')
   const [Username, setUsername] = useState('')
 
-  const { signup } = useAuth()
+  const { signup, currentUser, updateProf } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [signedUp, setSignedUp] = useState(false)
@@ -68,12 +68,6 @@ export default function SignUp() {
       setLoading(true)
       await signup(emailID, password_one)
       //history.push("/")
-      const DatabaseRef = firebase.database().ref("users");
-      const dict = {
-        username: Username,
-        type: "member",
-      };
-      DatabaseRef.push(dict);
       setSignedUp(true)
       
     } catch {
