@@ -63,12 +63,10 @@ export default function SignIn() {
       setLoading(true)
       await login(emailID, password_one)
       setLoggedIn(true)
-      
+      window.location.reload()
     } catch {
       setError("Failed to log in")
     }
-    
-    
     setLoading(false)
     
   }

@@ -21,13 +21,12 @@ class Navbar extends Component {
         this.setState({ user: user, email: user.email, button: false });
         localStorage.setItem('email', user.email)
         localStorage.setItem('uid', user.uid)
-        localStorage.setItem('uid', user.uid)
       }
       if(this.state.email !== "error"){
         const DatabaseRef = firebase.database().ref().child("users")
         DatabaseRef.once("value")
         .then((snapshot)=> {
-          if(!snapshot.hasChild(this.state.uid)){
+          if(!snapshot.hasChild(this.state.uid) && this.state.uid!=="error"){
             DatabaseRef.child(this.state.uid).set({
               email: this.state.email,
               uid: this.state.uid,
@@ -72,24 +71,25 @@ class Navbar extends Component {
                 Home
               </Link>
             </li>
-            <li className='nav-item'>
-              {this.state.type==="admin" && <Link
+            {this.state.type==="admin" && <li className='nav-item'>
+              <Link
                 to='/services'
                 className='nav-links'
                 style={{ textDecoration: 'none', color: 'white' }}
               >
                 Admin
-              </Link>}
-            </li>
-            <li className='nav-item'>
-              {(this.state.type==="librarian" || this.state.type==="admin") && <Link
+              </Link>
+            </li>}
+            {(this.state.type==="librarian" || this.state.type==="admin") && <li className='nav-item'>
+              <Link
                 to='/librarian'
                 className='nav-links'
+                id="lib"
                 style={{ textDecoration: 'none', color: 'white'}}
               >
                 Librarian
-              </Link>}
-            </li>
+              </Link>
+            </li>}
             <li classname="nav-item">
             {this.state.email==="error" && <Button buttonStyle='btn--outline' toLink="/sign-up">SIGN UP</Button>}
             {this.state.email!=="error" && <Link
@@ -105,7 +105,8 @@ class Navbar extends Component {
               firebase.auth().signOut();
               localStorage.setItem('email', "error");
               localStorage.setItem('uid', "error");
-              this.setState({email: "error", uid: "error"})}} >LOG OUT</Button>}
+              localStorage.setItem('type', 'error')
+              this.setState({email: "error", uid: "error", type: "error"})}} >LOG OUT</Button>}
             </li>
           </ul>
           

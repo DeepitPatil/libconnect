@@ -3,12 +3,17 @@ import BookCard from './BookCard.js'
 import { Grid } from '@material-ui/core'
 import { Link } from 'react-router-dom';
 import firebase from '../../firebase'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "firebase/database";
-import { Button } from './Button.js';
+
+import { Button } from 'react-bootstrap';
 
 class BookInfo extends Component {
     constructor(props){
         super(props);
+        var res = new Date();
+        res.setDate(res.getDate()+7)
         this.state = {
             title: "",
             author: "",
@@ -18,7 +23,9 @@ class BookInfo extends Component {
             quantity: 0,
             availability: 0,
             genre: "",
-            isbn: ""
+            isbn: "",
+            date: res,
+            status: "none"
           };
     };
 
@@ -40,6 +47,13 @@ class BookInfo extends Component {
                 isbn: snapshot.child("isbn").val(),
                });
         });
+
+        const dataRef = firebase.database().ref("users").child(localStorage.getItem('uid')).child("books")
+        dataRef.once("value")
+        .then((snapshot)=> {
+          if(snapshot.hasChild(this.state.isbn)){
+            this.setState({status: snapshot.child(this.state.isbn).child("status").val()})
+          }})
     }
     
            render() {
@@ -64,8 +78,40 @@ class BookInfo extends Component {
                                 <h4 >{this.state.genre}</h4><br/>
                                 <h7>{this.state.summary}</h7><br/><br/>
                                 <h5 >{this.state.availability+" books available in "+this.state.location}</h5>
+                                <div style={{ display: "flex", flexDirection:"row", marginTop:"5vh"}}>
+                                {localStorage.getItem('type')==="member" && <DatePicker selected={this.state.date} onChange={date => this.setState({date: date})}/>}
+                                {localStorage.getItem('type')==="member" && this.state.status==="none" && <Button variant="dark" style={{ marginTop:'-5px', marginLeft:"10px"}} onClick={()=>{
+                                    const timestamp = Date.now();
+                                    firebase.database().ref().child("requests").child(timestamp).set({
+                                        uid: localStorage.getItem('uid'),
+                                        email: localStorage.getItem('email'),
+                                        book: this.state.isbn,
+                                        date: this.state.date.getDate()+'/'+this.state.date.getMonth()+'/'+this.state.date.getFullYear(),
+                                        createdAt: timestamp,
+                                        status: 'pending',
+                                    });
+                                    firebase.database().ref().child("users").child(localStorage.getItem('uid')).child("requests").child(timestamp).set({
+                                        uid: localStorage.getItem('uid'),
+                                        email: localStorage.getItem('email'),
+                                        book: this.state.isbn,
+                                        date: this.state.date.getDate()+'/'+this.state.date.getMonth()+'/'+this.state.date.getFullYear(),
+                                        createdAt: timestamp,
+                                        status: 'pending',
+                                    });
+                                    firebase.database().ref().child("users").child(localStorage.getItem('uid')).child("books").child(this.state.isbn).set({
+                                        uid: localStorage.getItem('uid'),
+                                        email: localStorage.getItem('email'),
+                                        book: this.state.isbn,
+                                        date: this.state.date.getDate()+'/'+this.state.date.getMonth()+'/'+this.state.date.getFullYear(),
+                                        createdAt: timestamp,
+                                        status: 'pending',
+                                    });
+                                    this.setState({status: "pending"})
+                                }}>Borrow Now</Button>}
+                                {localStorage.getItem('type')==="member" && this.state.status==="pending" && <Button variant="warning" style={{ marginTop:'-5px', marginLeft:"10px"}} >Request Pending</Button>}
+                                </div>           
                             </p>
-                            <Button>Borrow Now</Button>
+                            
                         </div>
                    </div>
                )

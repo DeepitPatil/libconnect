@@ -69,6 +69,7 @@ export default function SignUp() {
       await signup(emailID, password_one)
       //history.push("/")
       setSignedUp(true)
+      window.location.reload()
       
     } catch {
       setError("Failed to create an account")
