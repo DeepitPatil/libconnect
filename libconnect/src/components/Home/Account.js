@@ -6,7 +6,7 @@ import { Card, ListGroupItem, ListGroup, Button } from 'react-bootstrap'
 import firebase from '../../firebase'
 import "firebase/database";
 
-class BookIssue extends Component {
+class Account extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -18,39 +18,16 @@ class BookIssue extends Component {
             dates: [],
             uids: [],
             timestamps: [],
+            statuses: [],
             post: null,
           };
     };
 
-    acceptBook(uid, isbn, timestamp){
-        var ava;
-        const DatabaseRef = firebase.database().ref('books').child(isbn).child('availability');
-        firebase.database().ref('requests').child(timestamp).child('status').set("accepted")
-        firebase.database().ref('users').child(uid).child('requests').child(timestamp).child('status').set("accepted")
-        firebase.database().ref('users').child(uid).child('books').child(isbn).child('status').set("accepted")
-        window.location.reload()
-    }
-
-    rejectBook(uid, isbn, timestamp){
-        firebase.database().ref('books').child(isbn).child('availability')
-        .transaction((searches)=> {
-            if (searches) {
-              searches = searches + 1;
-            }
-            return searches;
-          });
-        firebase.database().ref('requests').child(timestamp).child('status').set("rejected")
-        firebase.database().ref('users').child(uid).child('requests').child(timestamp).child('status').set("rejected")
-        firebase.database().ref('users').child(uid).child('books').child(isbn).child('status').set("rejected")
-        window.location.reload()
-    }
-
     componentDidMount(){
         const rootRef = firebase.database().ref();
-        const post = rootRef.child('requests').orderByKey();
+        const post = rootRef.child('users').child(localStorage.getItem("uid")).child("requests").orderByKey();
              post.once('value', snap => {
                snap.forEach(child => {
-                   if(child.val().status==="pending"){
                    this.setState({
                     titles: this.state.titles.concat([child.val().title]),
                     authors: this.state.authors.concat([child.val().author]),
@@ -59,25 +36,24 @@ class BookIssue extends Component {
                     emails: this.state.emails.concat([child.val().email]),
                     dates: this.state.dates.concat([child.val().date]),
                     uids: this.state.uids.concat([child.val().uid]),
+                    statuses: this.state.statuses.concat([child.val().status]),
                     timestamps: this.state.timestamps.concat([child.val().createdAt]),
                    });
-                }
+                
         
                    const postList = this.state.isbns.map((dataList, index) =>
-                   <div style={{ display: 'flex', flexDirection: 'row', marginTop:"3vh", paddingRight:'0vw', borderRadius:'15px',
+                   <div style={{ display: 'flex', flexDirection: 'row', margin:"3vh", paddingRight:'0vw', borderRadius:'15px',
                    boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", WebkitFilter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017))", filter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017)"}}>
                        <img src={this.state.coverurls[index]} style={{width:"12vw", height:"19vw", borderRadius:"15px 0 0 15px", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)" }}/>
                        <p style={{width:"45vw", marginLeft:'2vw', maxHeight:"17vw", marginTop:'1vw'}}>
                            <h3>{this.state.titles[index]+" by "+this.state.authors[index]}</h3>
-                           <h5>{"ISBN-13 : "+this.state.isbns[index]}</h5><br/>
-                           <h5>{"Request made by : "+this.state.emails[index]}</h5>
-                           <h6>{"User ID : "+this.state.uids[index]}</h6><br/>
+                           <h5>{"ISBN-13 : "+this.state.isbns[index]}</h5><br/><br/>
                            <h5>{"Return by : "+this.state.dates[index]}</h5>
                        </p>
-                       <div style={{ width:"7vw",display: 'flex', flexDirection: 'column', justifyContent:"space-evenly" }}>
-                       <Button variant="success" style={{boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", height:"9.5vw", borderRadius:"0 15px 0 0"}} onClick={()=>this.acceptBook(this.state.uids[index], this.state.isbns[index], this.state.timestamps[index])}>Accept</Button>
-                       <Button variant="danger" style={{boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", height:"9.5vw", borderRadius:"0 0 15px 0"}} onClick={()=>this.rejectBook(this.state.uids[index], this.state.isbns[index], this.state.timestamps[index])}>Reject</Button>
-                       </div>
+                       {this.state.statuses[index]==="pending" && <div style={{ width:"7vw",display: 'flex', flexDirection: 'column',color:"white", justifyContent:"space-evenly", backgroundColor:"orange", borderRadius:"0 15px 15px 0", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", }}><center>Pending</center></div>}
+                       {this.state.statuses[index]==="accepted" && <div style={{ width:"7vw",display: 'flex', flexDirection: 'column', justifyContent:"space-evenly", color:"white", backgroundColor:"green", borderRadius:"0 15px 15px 0", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", }}><center>Accepted</center></div>}
+                       {this.state.statuses[index]==="rejected" && <div style={{ width:"7vw",display: 'flex', flexDirection: 'column', justifyContent:"space-evenly", color:"white", backgroundColor:"red", borderRadius:"0 15px 15px 0", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", }}><center>Rejected</center></div>}
+                       {this.state.statuses[index]==="none" && <div style={{ width:"7vw",display: 'flex', flexDirection: 'column', justifyContent:"space-evenly", color:"white", backgroundColor:"DodgerBlue", borderRadius:"0 15px 15px 0", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", }}><center>Returned</center></div>}
                     </div>
         
                     );
@@ -91,10 +67,15 @@ class BookIssue extends Component {
            render() {
                return(
                 <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
-                    <h1><br/>Accept or Reject the borrow requests made by users</h1>
-                {this.state.post}
+                    <h1><br/>Welcome, {localStorage.getItem('email')} ({localStorage.getItem('type')})</h1>
+                    <h6>Your User ID is {localStorage.getItem('uid')}</h6><br/>
+                    {localStorage.getItem('type')==="member" && <h4>And this is your history</h4>}
+                    <div style={{display: 'flex', flexDirection:'column-reverse', alignItems:'center', height:"auto", overflowY:"scroll"}}>
+                    {this.state.post}
+                    </div>
+                
               </div>
                )
            }
 }
-export default BookIssue;
+export default Account;

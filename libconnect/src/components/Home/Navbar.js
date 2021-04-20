@@ -93,7 +93,7 @@ class Navbar extends Component {
             <li classname="nav-item">
             {this.state.email==="error" && <Button buttonStyle='btn--outline' toLink="/sign-up">SIGN UP</Button>}
             {this.state.email!=="error" && <Link
-                to='/'
+                to='/account'
                 className='nav-links'
                 style={{ textDecoration: 'none', color: 'white', marginTop: '10px'}}
               >

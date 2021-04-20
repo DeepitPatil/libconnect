@@ -39,10 +39,10 @@ export default function Home(props){
           <div className='hero-container'>
             <video src={bookVideo} autoPlay loop muted />
             <h1>Welcome to LibConnect</h1>
-            <p>“Today a reader, tomorrow a leader.” – Margaret Fuller</p>
+            <p >“Today a reader, tomorrow a leader.” – Margaret Fuller</p>
             <center>
             <SearchBar
-              style={{margin: "10vh 0 0 0", width: "50vw"}}
+              style={{margin: "10vh 0 0 0", width: "50vw", }}
               value={search}
               onChange={(e) => {
                 setSearch(e)
