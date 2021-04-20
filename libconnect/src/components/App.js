@@ -12,6 +12,7 @@ import PrivateRoute from './PrivateRoute';
 import { AuthProvider } from "../contexts/AuthContext"
 import { BrowserRouter as Router, Switch, Route, useParams } from "react-router-dom"
 import { Container } from "react-bootstrap"
+import EditBook from './Home/EditBook.js';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/signin" component={SignIn} />
               <Route path="/home/:search" component={Home} />
               <Route path="/books/:isbn" component={BookInfo} />
+              <Route path="/edit/:isbn" component={EditBook} />
               <Route path="/librarian/add-book" component={AddBook} />
               <Route path="/librarian/book-issue" component={BookIssue} />
               <Route path="/librarian" component={Librarian} />

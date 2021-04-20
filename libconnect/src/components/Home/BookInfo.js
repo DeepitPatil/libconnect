@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BookCard from './BookCard.js'
 import { Grid } from '@material-ui/core'
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import firebase from '../../firebase'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,6 +20,7 @@ class BookInfo extends Component {
             coverurl: "",
             summary: "",
             location: "",
+            publisher: "",
             quantity: 0,
             availability: 0,
             genre: "",
@@ -27,6 +28,8 @@ class BookInfo extends Component {
             date: res,
             returnBy: "error",
             timestamp: "error",
+            red: false,
+            red2: false,
             status: "none"
           };
     };
@@ -45,6 +48,7 @@ class BookInfo extends Component {
                 location: snapshot.child("location").val(),
                 coverurl: snapshot.child("coverurl").val(),
                 quantity: snapshot.child("quantity").val(),
+                publisher: snapshot.child("publisher").val(),
                 availability: snapshot.child("availability").val(),
                 isbn: snapshot.child("isbn").val(),
                });
@@ -62,27 +66,19 @@ class BookInfo extends Component {
                return(
                    <div>
                         <div style={{ display: "flex", flexDirection:"row", justifyContent: "space-evenly"}}>
-                        {/* <li className='cards__item' style={{margin: "50px 0 0 0", maxWidth: "30vw" }} >
-                            <Link className='cards__item__link' style={{ textDecoration: 'none' }}>
-                            <figure className='cards__item__pic-wrap-' >
-                                <img
-                                className='cards__item__img-'
-                                alt='Book Image'
-                                src={this.state.coverurl}
-                                />
-                            </figure>
-                            </Link>
-                        </li> */}
                         <img
                                 style={{width:"30vw", marginTop:"50px", borderRadius:"15px", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", WebkitFilter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017))", filter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017)"
                             }}
                                 alt='Book Cover'
                                 src={this.state.coverurl}
                                 />
+                                {this.state.red && <Redirect to="/home/s="/>}
+                                {this.state.red2 && <Redirect to={"/edit/"+this.state.isbn}/>}
                             <p style={{margin: "50px 0 0 0", maxWidth: "40vw"}}>
                                 <h1 style={{textAlign: "left"}}>{this.state.title}</h1><br/>
                                 <h3>{"by "+this.state.author}</h3><br/>
-                                <h5 >{"ISBN-13 : "+this.state.isbn}</h5><br/>
+                                <h5 >{"ISBN-13 : "+this.state.isbn}</h5>
+                                <h5 >{"Published by "+this.state.publisher}</h5><br/>
                                 <h4 >{this.state.genre}</h4><br/>
                                 <h7>{this.state.summary}</h7><br/><br/>
                                 <h5 >{this.state.availability+" books available in "+this.state.location}</h5>
@@ -177,6 +173,14 @@ class BookInfo extends Component {
                                 </div>
                                 {localStorage.getItem('type')==="member" && this.state.status==="rejected" && <div style={{ marginTop:'15px',  color:"red", padding:"5px", textAlign:"left",}} >Request Rejected</div>}
                                 {localStorage.getItem('type')==="member" && this.state.status==="accepted" && <div style={{ marginTop:'15px',  color:"green",  textAlign:"left", }} >Request Accepted. Please return by {this.state.returnBy}</div>}  
+                                {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="primary" onClick={()=>this.setState({red2: true})}>Edit Book</Button>}
+                                {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="danger" style={{marginLeft:"20px"}} onClick={()=>{
+                                    var b = window.confirm("Are you sure you want to delete this book? This action cannot be reversed.")
+                                    if(b){
+                                    firebase.database().ref('books').child(this.state.isbn).remove()
+                                    this.setState({red: true})
+                                }
+                                }}>Delete Book</Button>}
                             </p>
                             
                         </div>
