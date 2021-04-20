@@ -1,5 +1,6 @@
 import SignIn from './SignIn.js';
 import SignUp from './SignUp.js';
+import Admin from './Admin.js';
 import Home from './Home/Home.js';
 import Navbar from './Home/Navbar.js';
 import BookInfo from './Home/BookInfo.js';
@@ -29,6 +30,7 @@ function App() {
               <Route path="/librarian/book-issue" component={BookIssue} />
               <Route path="/librarian" component={Librarian} />
               <Route path="/account" component={Account} />
+              <Route path="/admin" component={Admin} />
             </Switch>
           </AuthProvider>
         </Router>

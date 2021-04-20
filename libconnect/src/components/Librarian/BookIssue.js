@@ -64,7 +64,7 @@ class BookIssue extends Component {
                 }
         
                    const postList = this.state.isbns.map((dataList, index) =>
-                   <div style={{ display: 'flex', flexDirection: 'row', marginTop:"3vh", paddingRight:'0vw', borderRadius:'15px',
+                   <div style={{ display: 'flex', flexDirection: 'row', margin:"1vh", paddingRight:'0vw', borderRadius:'15px',
                    boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", WebkitFilter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017))", filter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017)"}}>
                        <img src={this.state.coverurls[index]} style={{width:"12vw", height:"19vw", borderRadius:"15px 0 0 15px", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)" }}/>
                        <p style={{width:"45vw", marginLeft:'2vw', maxHeight:"17vw", marginTop:'1vw'}}>
@@ -92,7 +92,9 @@ class BookIssue extends Component {
                return(
                 <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
                     <h1><br/>Accept or Reject the borrow requests made by users</h1>
-                {this.state.post}
+                    <div style={{display: 'flex', flexDirection:'column-reverse', alignItems:'center', height:"80vh", overflowY:"scroll", padding:"1vh"}}>
+                    {this.state.post}
+                    </div>
               </div>
                )
            }

@@ -73,7 +73,7 @@ class Navbar extends Component {
             </li>
             {this.state.type==="admin" && <li className='nav-item'>
               <Link
-                to='/services'
+                to='/admin'
                 className='nav-links'
                 style={{ textDecoration: 'none', color: 'white' }}
               >

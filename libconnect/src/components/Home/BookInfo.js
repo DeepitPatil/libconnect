@@ -87,7 +87,7 @@ class BookInfo extends Component {
                                 <h7>{this.state.summary}</h7><br/><br/>
                                 <h5 >{this.state.availability+" books available in "+this.state.location}</h5>
                                 <div style={{ display: "flex", flexDirection:"row", marginTop:"5vh"}}>
-                                {localStorage.getItem('type')==="member" && this.state.status !== "pending" && <DatePicker selected={this.state.date} onChange={date => this.setState({date: date})}/>}
+                                {localStorage.getItem('type')==="member" && this.state.status !== "pending" && <DatePicker dateFormat="dd/MM/yyyy" selected={this.state.date} onChange={date => this.setState({date: date})}/>}
                                 {localStorage.getItem('type')==="member" && (this.state.status==="none" || this.state.status==="rejected") && <Button variant="outline-dark" style={{ marginTop:'-5px', marginLeft:"10px"}} onClick={()=>{
                                     const timestamp = Date.now();
                                     firebase.database().ref().child("requests").child(timestamp).set({
