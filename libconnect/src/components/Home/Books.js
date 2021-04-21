@@ -22,7 +22,7 @@ class Books extends Component {
         
              post.once('value', snap => {
                snap.forEach(child => {
-                if(child.val().title.toString().toLowerCase().includes(this.props.search.toLowerCase()) || child.val().author.toString().toLowerCase().includes(this.props.search.toLowerCase())){
+                if((child.val().title.toString().toLowerCase().includes(this.props.search.toLowerCase()) || child.val().author.toString().toLowerCase().includes(this.props.search.toLowerCase())) && (child.val().genre.toString().toLowerCase()===(this.props.genre.toLowerCase()) || this.props.genre==="")){
                    this.setState({
                     titles: this.state.titles.concat([child.val().title]),
                     authors: this.state.authors.concat([child.val().author]),
@@ -51,13 +51,6 @@ class Books extends Component {
            render() {
                return(
                 <Grid container spacing={1} xl={4} style={{justifyContent: "space-evenly"}}>
-                {/* <Grid item>
-                <BookCard
-                  src='https://images-na.ssl-images-amazon.com/images/I/5112YFsXIJL.jpg'
-                  text='Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future'
-                  path='/librarian/add-book'
-                />
-                </Grid>*/}
                 {this.state.post}
               </Grid>
                )

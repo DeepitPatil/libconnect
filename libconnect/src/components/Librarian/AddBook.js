@@ -116,6 +116,8 @@ export default function SignUp() {
         DatabaseRef.child(ISBN).child("availability").set(parseInt(quantity, 10));
         DatabaseRef.child(ISBN).child("summary").set(summary);
         DatabaseRef.child(ISBN).child("coverurl").set(coverURL);
+        DatabaseRef.child(ISBN).child("rating").set(0);
+        DatabaseRef.child(ISBN).child("numreviews").set(0);
         setSignedUp(true)
       
       

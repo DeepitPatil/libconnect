@@ -61,7 +61,8 @@ class Navbar extends Component {
     <>
       <nav className='navbar'>
         <div className='navbar-container'>
-          <Link to='/home/s=' className='navbar-logo' style={{ textDecoration: 'none', color: 'white' }}>
+          <Link to='/home/s='><img src="https://i.pinimg.com/564x/cb/cd/13/cbcd13e56456b549cfeee170dce94d7c.jpg" style={{marginLeft:"10px",width:"90px", filter:"invert(1) grayscale()"}} /></Link>
+          <Link to='/home/s=' className='navbar-logo' style={{ textDecoration: 'none', color: 'white', marginLeft:"0px" }}>
             LibConnect
             <i class='fab fa-typo3' />
           </Link>
