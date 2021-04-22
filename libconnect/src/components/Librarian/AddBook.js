@@ -98,6 +98,12 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false)
   const [signedUp, setSignedUp] = useState(false)
   const history = useHistory()
+  const [eligible, setEligible] = useState(true)
+  if(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian"){
+      
+  }else if(eligible){
+      setEligible(false)
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -131,6 +137,7 @@ export default function SignUp() {
 
   return (
     <Grid container component="main" className={classes.root}>
+      {!eligible && <Redirect to="/home/s=" />}
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

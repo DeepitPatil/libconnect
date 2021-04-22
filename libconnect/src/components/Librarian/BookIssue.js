@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import BookCard from '../Home/BookCard.js'
-import { Grid } from '@material-ui/core'
-import { Card, ListGroupItem, ListGroup, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 //import { Card, CardHeader, CardTitle, CardBody, CardActions, CardImage, CardSubtitle } from '@progress/kendo-react-layout';
 import firebase from '../../firebase'
 import "firebase/database";
@@ -20,6 +19,11 @@ class BookIssue extends Component {
             timestamps: [],
             post: null,
           };
+        if(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian"){
+            this.setState({eligible:true})
+        }else{
+            this.setState({eligible:false})
+        }
     };
 
     acceptBook(uid, isbn, timestamp){
@@ -91,6 +95,7 @@ class BookIssue extends Component {
            render() {
                return(
                 <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
+                    {!this.state.eligible && <Redirect to="/home/s=" />}
                     <h1><br/>Accept or Reject the borrow requests made by users</h1>
                     <div style={{display: 'flex', flexDirection:'column-reverse', alignItems:'center', height:"80vh", overflowY:"scroll", padding:"1vh"}}>
                     {this.state.post}

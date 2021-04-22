@@ -15,6 +15,7 @@ class Navbar extends Component {
       email: localStorage.getItem('email') || "error",
       uid: localStorage.getItem('uid') || "error",
       type: localStorage.getItem('type') || "error",
+      loggedout: false,
     }
     firebase.auth().onAuthStateChanged((user)=> {   
       if(user){
@@ -102,12 +103,14 @@ class Navbar extends Component {
               </Link>}
             </li>
             <li classname="nav-item">
-            {this.state.email!=="error" && <Button buttonStyle='btn--outline' toLink="/signin" onClick={()=>{
+            {this.state.email!=="error" && <Button buttonStyle='btn--outline' onClick={()=>{
               firebase.auth().signOut();
               localStorage.setItem('email', "error");
               localStorage.setItem('uid', "error");
               localStorage.setItem('type', 'error')
-              this.setState({email: "error", uid: "error", type: "error"})}} >LOG OUT</Button>}
+              this.setState({email: "error", uid: "error", type: "error", loggedout: true})
+              window.location.reload()
+              }} >LOG OUT</Button>}
             </li>
           </ul>
           

@@ -68,6 +68,12 @@ class EditBook extends Component {
             red: false,
             status: "none"
           };
+        if(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian"){
+            this.setState({eligible:true})
+        }else{
+            this.setState({eligible:false})
+        }
+        
           const rootRef = firebase.database().ref("books");
         const rref = rootRef.child(this.props.match.params.isbn);
         
@@ -95,6 +101,7 @@ class EditBook extends Component {
            render() {
                return(
                    <div>
+                        {!this.state.eligible && <Redirect to="/home/s=" />}
                         <div style={{ display: "flex", flexDirection:"row", justifyContent: "space-evenly"}}>
                         <img
                                 style={{width:"30vw", marginTop:"50px", borderRadius:"15px", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", WebkitFilter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017))", filter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017)"

@@ -3,6 +3,7 @@ import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import firebase from '../firebase'
 import './App.css'
 import "firebase/database";
+import { Redirect } from 'react-router';
 
 class Admin extends Component {
     constructor(props){
@@ -13,6 +14,11 @@ class Admin extends Component {
             types: [],
             post: null,
           };
+        if(localStorage.getItem('type')==="admin"){
+            this.setState({eligible:true})
+        }else{
+            this.setState({eligible:false})
+        }
     };
 
     handleClick(uid, type) {
@@ -44,6 +50,7 @@ class Admin extends Component {
                             <ToggleButton value="admin" className='toggle'>Admin</ToggleButton>
                             <ToggleButton value="librarian" className='toggle'>Librarian</ToggleButton>
                             <ToggleButton value="member" className='toggle'>Member</ToggleButton>
+                            <ToggleButton value="ban" className='toggle'>Banned</ToggleButton>
                         </ToggleButtonGroup>
                     </div>
         
@@ -58,8 +65,9 @@ class Admin extends Component {
            render() {
                return(
                 <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
+                    {!this.state.eligible && <Redirect to="/home/s=" />}
                     <h1><br/>Manage Accounts</h1>
-                    <div style={{display: 'flex', flexDirection:'column', alignItems:'center', height:"80vh", overflowY:"scroll", padding:"1vh"}}>
+                    <div style={{display: 'flex', flexDirection:'column', alignItems:'center', height:"80vh",  padding:"1vh"}}>
                     {this.state.post}
                     </div>
               </div>

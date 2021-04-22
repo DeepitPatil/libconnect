@@ -160,7 +160,7 @@ class BookInfo extends Component {
                                 <h5 >{"Published by "+this.state.publisher}</h5><br/>
                                 <h4 >{this.state.genre}</h4><br/>
                                 <h7>{this.state.summary}</h7><br/><br/>
-                                <h5 >{this.state.availability+" books available in "+this.state.location}</h5>
+                                <h5 >{this.state.availability+" copies available in "+this.state.location}</h5>
                                 <div style={{ display: "flex", flexDirection:"row", marginTop:"5vh"}}>
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && this.state.status !== "pending" && <DatePicker dateFormat="dd/MM/yyyy" selected={this.state.date} onChange={date => this.setState({date: date})}/>}
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && (this.state.status==="none" || this.state.status==="rejected") && <Button variant="outline-dark" style={{ marginTop:'-5px', marginLeft:"10px"}} onClick={()=>{
@@ -254,7 +254,7 @@ class BookInfo extends Component {
                                     this.setState({red: true})
                                 }
                                 }}>Delete Book</Button>}{!this.state.revreq &&<br/>}
-                                {!this.state.rev && !this.state.revreq && <Button variant="success" style={{marginTop:"20px"}} onClick={()=>this.setState({revreq: true})}>Add Book Review</Button>}
+                                {!this.state.rev && !this.state.revreq && (localStorage.getItem('type')==="member" || localStorage.getItem('type')==="librarian" || localStorage.getItem('type')==="admin") && <Button variant="success" style={{marginTop:"20px"}} onClick={()=>this.setState({revreq: true})}>Add Book Review</Button>}
                                 {this.state.revreq && <div style={{marginTop:"-3.5vh"}}>
                                     <h4>Add your Review</h4>
                                     <Rating size="large" value={this.state.userrating} onChange={(event, newValue) => this.setState({userrating: newValue})}/><br/>
@@ -265,7 +265,7 @@ class BookInfo extends Component {
                                     />
                                     <TextField fullWidth required multiline rowsMax="3" variant="filled" label="Review" value={this.state.userreview} onChange={(e)=>this.setState({userreview: e.target.value})} />
     
-                                    {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="success" style={{marginTop:"20px"}} onClick={()=>{
+                                    {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian" || localStorage.getItem('type')==="member") && <Button variant="success" style={{marginTop:"20px"}} onClick={()=>{
                                         const t = Date.now();
                                         const DatabaseRef = firebase.database().ref("books").child(this.props.match.params.isbn).child("reviews");
                                         DatabaseRef.child(t).child("rating").set(this.state.userrating);
@@ -281,7 +281,7 @@ class BookInfo extends Component {
                                         })
                                         window.location.reload()
                                     }}>Publish Review</Button>}
-                                    {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="danger" style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>this.setState({revreq: false})}>Cancel</Button> }
+                                    {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian" || localStorage.getItem('type')==="member") && <Button variant="danger" style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>this.setState({revreq: false})}>Cancel</Button> }
                                     
                                 </div> }
                             </p>
