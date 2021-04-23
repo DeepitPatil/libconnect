@@ -18,12 +18,9 @@ class BookIssue extends Component {
             uids: [],
             timestamps: [],
             post: null,
+            eligible: true,
           };
-        if(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian"){
-            this.setState({eligible:true})
-        }else{
-            this.setState({eligible:false})
-        }
+        
     };
 
     acceptBook(uid, isbn, timestamp){
@@ -49,22 +46,30 @@ class BookIssue extends Component {
         window.location.reload()
     }
 
+    update(tit, aut, cov){
+        this.setState({
+            titles: this.state.titles.concat([tit]),
+            authors: this.state.authors.concat([aut]),
+            coverurls: this.state.coverurls.concat([cov]),
+        });
+    }
+
     componentDidMount(){
         const rootRef = firebase.database().ref();
         const post = rootRef.child('requests').orderByKey();
              post.once('value', snap => {
                snap.forEach(child => {
                    if(child.val().status==="pending"){
-                   this.setState({
-                    titles: this.state.titles.concat([child.val().title]),
-                    authors: this.state.authors.concat([child.val().author]),
-                    coverurls: this.state.coverurls.concat([child.val().coverurl]),
-                    isbns: this.state.isbns.concat([child.val().isbn]),
-                    emails: this.state.emails.concat([child.val().email]),
-                    dates: this.state.dates.concat([child.val().date]),
-                    uids: this.state.uids.concat([child.val().uid]),
-                    timestamps: this.state.timestamps.concat([child.val().createdAt]),
-                   });
+                      this.setState({
+                        titles: this.state.titles.concat([child.val().title]),
+                        authors: this.state.authors.concat([child.val().author]),
+                        coverurls: this.state.coverurls.concat([child.val().coverurl]),
+                        isbns: this.state.isbns.concat([child.val().isbn]),
+                        emails: this.state.emails.concat([child.val().email]),
+                        dates: this.state.dates.concat([child.val().date]),
+                        uids: this.state.uids.concat([child.val().uid]),
+                        timestamps: this.state.timestamps.concat([child.val().createdAt]),
+                    });
                 }
         
                    const postList = this.state.isbns.map((dataList, index) =>
@@ -93,11 +98,15 @@ class BookIssue extends Component {
            }); }
     
            render() {
+            if(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian"){
+            }else{
+                this.setState({eligible:false})
+            }
                return(
                 <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
                     {!this.state.eligible && <Redirect to="/home/s=" />}
                     <h1><br/>Accept or Reject the borrow requests made by users</h1>
-                    <div style={{display: 'flex', flexDirection:'column-reverse', alignItems:'center', height:"80vh", overflowY:"scroll", padding:"1vh"}}>
+                    <div style={{display: 'flex', flexDirection:'column-reverse', alignItems:'center', maxHeight:"80vh", overflowY:"scroll", padding:"1vh"}}>
                     {this.state.post}
                     </div>
               </div>

@@ -13,12 +13,10 @@ class Admin extends Component {
             uids: [],
             types: [],
             post: null,
+            eligible: true,
           };
-        if(localStorage.getItem('type')==="admin"){
-            this.setState({eligible:true})
-        }else{
-            this.setState({eligible:false})
-        }
+          
+        
     };
 
     handleClick(uid, type) {
@@ -63,11 +61,16 @@ class Admin extends Component {
            }); }
     
            render() {
+            if(localStorage.getItem('type')==="admin"){
+            }else{
+                
+                this.setState({eligible:false})
+            }
                return(
                 <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
                     {!this.state.eligible && <Redirect to="/home/s=" />}
                     <h1><br/>Manage Accounts</h1>
-                    <div style={{display: 'flex', flexDirection:'column', alignItems:'center', height:"80vh",  padding:"1vh"}}>
+                    <div style={{display: 'flex', flexDirection:'column', alignItems:'center', maxHeight:"80vh",  padding:"1vh", overflowY:"scroll"}}>
                     {this.state.post}
                     </div>
               </div>

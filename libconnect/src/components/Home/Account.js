@@ -17,14 +17,17 @@ class Account extends Component {
             timestamps: [],
             statuses: [],
             post: null,
+            eligible: true,
           };
+        
     };
 
     componentDidMount(){
         const rootRef = firebase.database().ref();
-        const post = rootRef.child('users').child(localStorage.getItem("uid")).child("requests").orderByKey();
+        const post = rootRef.child('requests').orderByKey();
              post.once('value', snap => {
                snap.forEach(child => {
+                   if(child.val().uid===localStorage.getItem('uid')){
                    this.setState({
                     titles: this.state.titles.concat([child.val().title]),
                     authors: this.state.authors.concat([child.val().author]),
@@ -35,7 +38,7 @@ class Account extends Component {
                     uids: this.state.uids.concat([child.val().uid]),
                     statuses: this.state.statuses.concat([child.val().status]),
                     timestamps: this.state.timestamps.concat([new Date(child.val().createdAt)]),
-                   });
+                   });}
                 
         
                    const postList = this.state.isbns.map((dataList, index) =>
@@ -63,6 +66,10 @@ class Account extends Component {
            }); }
     
            render() {
+            if(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian" || localStorage.getItem('type')==="member"){
+            }else{
+                this.setState({eligible:false})
+            }
                return(
                 <div style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
                     <div style={{display:"flex", flexDirection:'column', alignItems:"center", height:"20vh"}}>
@@ -71,7 +78,7 @@ class Account extends Component {
                     {localStorage.getItem('type')==="member" && <h4>And this is your history</h4>}
                     </div>
                     
-                    <div style={{display: 'flex', flexDirection:'column-reverse', alignItems:'center', height:"70vh", overflowY:"scroll",padding:"1vh"}}>
+                    <div style={{display: 'flex', flexDirection:'column-reverse', alignItems:'center', maxHeight:"70vh", overflowY:"scroll",padding:"1vh"}}>
                     {this.state.post}
                     </div>
                 

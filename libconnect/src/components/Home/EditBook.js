@@ -66,7 +66,8 @@ class EditBook extends Component {
             returnBy: "error",
             timestamp: "error",
             red: false,
-            status: "none"
+            status: "none",
+            eligible: true,
           };
         if(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian"){
             this.setState({eligible:true})
@@ -234,6 +235,18 @@ class EditBook extends Component {
                                 DatabaseRef.child(this.props.match.params.isbn).child("availability").set(parseInt(this.state.quantity, 10));
                                 DatabaseRef.child(this.props.match.params.isbn).child("summary").set(this.state.summary);
                                 DatabaseRef.child(this.props.match.params.isbn).child("coverurl").set(this.state.coverurl);
+                                const dataRef = firebase.database().ref("requests");
+                                dataRef.once('value').then((snap)=>{
+                                  snap.forEach(child=>{
+                                    if(child.val().isbn===this.props.match.params.isbn){
+                                      child.ref.update({
+                                        title: this.state.title,
+                                        author: this.state.author,
+                                        coverurl: this.state.coverurl
+                                      })
+                                    }
+                                  })
+                                })
                                 this.setState({red: true})
                             }}>Save</Button>}
                             {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="danger" style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>this.setState({red: true})}>Cancel</Button> }

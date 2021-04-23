@@ -160,7 +160,8 @@ class BookInfo extends Component {
                                 <h5 >{"Published by "+this.state.publisher}</h5><br/>
                                 <h4 >{this.state.genre}</h4><br/>
                                 <h7>{this.state.summary}</h7><br/><br/>
-                                <h5 >{this.state.availability+" copies available in "+this.state.location}</h5>
+                                {this.state.availability>=0 && <h5 >{this.state.availability+" copies available in "+this.state.location}</h5>}
+                                {this.state.availability<0 && <h5 >{"0 copies available in "+this.state.location}</h5>}
                                 <div style={{ display: "flex", flexDirection:"row", marginTop:"5vh"}}>
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && this.state.status !== "pending" && <DatePicker dateFormat="dd/MM/yyyy" selected={this.state.date} onChange={date => this.setState({date: date})}/>}
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && (this.state.status==="none" || this.state.status==="rejected") && <Button variant="outline-dark" style={{ marginTop:'-5px', marginLeft:"10px"}} onClick={()=>{
@@ -176,39 +177,18 @@ class BookInfo extends Component {
                                         createdAt: timestamp,
                                         status: 'pending',
                                     });
-                                    firebase.database().ref().child("users").child(localStorage.getItem('uid')).child("requests").child(timestamp).set({
-                                        uid: localStorage.getItem('uid'),
-                                        email: localStorage.getItem('email'),
-                                        isbn: this.state.isbn,
-                                        coverurl: this.state.coverurl,
-                                        title: this.state.title,
-                                        author: this.state.author,
-                                        date: this.state.date.getDate()+'/'+(parseInt(this.state.date.getMonth(), 10)+1).toString()+'/'+this.state.date.getFullYear(),
-                                        createdAt: timestamp,
-                                        status: 'pending',
-                                    });
                                     firebase.database().ref().child("users").child(localStorage.getItem('uid')).child("books").child(this.state.isbn).set({
                                         date: this.state.date.getDate()+'/'+(parseInt(this.state.date.getMonth(), 10)+1).toString()+'/'+this.state.date.getFullYear(),
                                         status: 'pending',
                                         createdAt: timestamp,
                                     });
+                                    
                                     firebase.database().ref('books').child(this.state.isbn).child('availability').set(this.state.availability-1)
-                                    this.setState({status: "pending"})
+                                    this.setState({status: "pending", availability: this.state.availability-1})
                                 }}>Borrow Now</Button>}
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && this.state.status==="accepted" && <Button variant="outline-dark" style={{ marginTop:'-5px', marginLeft:"10px"}} onClick={()=>{
                                     const timestamp = Date.now();
                                     firebase.database().ref().child("requests").child(timestamp).set({
-                                        uid: localStorage.getItem('uid'),
-                                        email: localStorage.getItem('email'),
-                                        isbn: this.state.isbn,
-                                        coverurl: this.state.coverurl,
-                                        title: this.state.title,
-                                        author: this.state.author,
-                                        date: this.state.date.getDate()+'/'+(parseInt(this.state.date.getMonth(), 10)+1).toString()+'/'+this.state.date.getFullYear(),
-                                        createdAt: timestamp,
-                                        status: 'pending',
-                                    });
-                                    firebase.database().ref().child("users").child(localStorage.getItem('uid')).child("requests").child(timestamp).set({
                                         uid: localStorage.getItem('uid'),
                                         email: localStorage.getItem('email'),
                                         isbn: this.state.isbn,
@@ -231,13 +211,8 @@ class BookInfo extends Component {
                                         console.log(snapshot.val())
                                         firebase.database().ref("requests").child(snapshot.val()).child("status").set("none");
                                         firebase.database().ref("users").child(localStorage.getItem('uid')).child("requests").child(snapshot.val()).child("status").set("none");
-                                        firebase.database().ref('books').child(this.state.isbn).child('availability')
-                                        .transaction((searches)=> {
-                                            if (searches) {
-                                            searches = searches + 1;
-                                            }
-                                            return searches;
-                                        });
+                                        firebase.database().ref('books').child(this.state.isbn).child('availability').set(this.state.availability+1)
+                                        this.setState({availability: this.state.availability+1})
                                     })
                                     
                                     this.setState({status:"none"})
@@ -245,11 +220,19 @@ class BookInfo extends Component {
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && this.state.status==="pending" && <div><div style={{ borderRadius:"5px", color:"white", backgroundColor:"orange", width:"150px", padding:"5px", textAlign:"center", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)"}} >Request Pending</div><div style={{marginTop:"15px", color:"orange"}}>Please wait for the librarian to approve your request.</div></div>}
                                 </div>
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && this.state.status==="rejected" && <div style={{ marginTop:'15px',  color:"red", padding:"5px", textAlign:"left",}} >Request Rejected</div>}
+                                {!this.state.revreq &&localStorage.getItem('type')==="member" && this.state.status==="pending" && this.state.availability<0 && <div style={{ marginTop:'15px',  color:"red", padding:"5px", textAlign:"left",}} >This book is currently unavailable. You have been added to the waitlist.</div>}
                                 {!this.state.revreq &&localStorage.getItem('type')==="member" && this.state.status==="accepted" && <div style={{ marginTop:'15px',  color:"green",  textAlign:"left", }} >Request Accepted. Please return by {this.state.returnBy}</div>}  
                                 {!this.state.revreq &&(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="primary" onClick={()=>this.setState({red2: true})}>Edit Book</Button>}
-                                {false && !this.state.revreq &&(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="danger" style={{marginLeft:"20px"}} onClick={()=>{
+                                {!this.state.revreq &&(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian") && <Button variant="danger" style={{marginLeft:"20px"}} onClick={()=>{
                                     var b = window.confirm("Are you sure you want to delete this book? This action cannot be reversed.")
                                     if(b){
+                                    firebase.database().ref("requests").once("value").then((snap)=>{
+                                        snap.forEach(child=>{
+                                            if(child.val().isbn===this.state.isbn){
+                                                child.ref.remove()
+                                            }
+                                        })
+                                    })
                                     firebase.database().ref('books').child(this.state.isbn).remove()
                                     this.setState({red: true})
                                 }

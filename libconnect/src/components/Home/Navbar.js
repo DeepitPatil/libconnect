@@ -87,7 +87,7 @@ class Navbar extends Component {
                 to='/librarian'
                 className='nav-links'
                 id="lib"
-                style={{ textDecoration: 'none', color: 'white'}}
+                style={{ textDecoration: 'none', color: 'white', marginTop:"8px"}}
               >
                 Librarian
               </Link>
@@ -97,7 +97,7 @@ class Navbar extends Component {
             {this.state.email!=="error" && <Link
                 to='/account'
                 className='nav-links'
-                style={{ textDecoration: 'none', color: 'white', marginTop: '10px'}}
+                style={{ textDecoration: 'none', color: 'white', marginTop: '8px'}}
               >
                 {this.state.email}
               </Link>}

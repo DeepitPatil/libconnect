@@ -10,7 +10,7 @@ import AddBook from './Librarian/AddBook.js';
 import BookIssue from './Librarian/BookIssue.js';
 import PrivateRoute from './PrivateRoute';
 import { AuthProvider } from "../contexts/AuthContext"
-import { BrowserRouter as Router, Switch, Route, useParams } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route, useParams, Redirect } from "react-router-dom"
 import { Container } from "react-bootstrap"
 import EditBook from './Home/EditBook.js';
 
@@ -22,7 +22,15 @@ function App() {
           <AuthProvider>
           <Navbar/>
             <Switch>
-              <PrivateRoute exact path="/" component={Home} />
+            <Route
+                exact
+                path="/"
+                render={() => {
+                    return (
+                      <Redirect to="/home/s=" /> 
+                    )
+                }}
+              />
               <Route path="/sign-up" component={SignUp} />
               <Route path="/signin" component={SignIn} />
               <Route path="/home/:search" component={Home} />

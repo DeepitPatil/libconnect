@@ -9,7 +9,10 @@ import React, { useRef, useState } from "react"
 import { Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory, Redirect } from "react-router-dom"
-import { auth } from '../firebase';
+import {provider} from '../firebase';
+import firebase from "../firebase"
+import "firebase/auth";
+import './App.css'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +61,8 @@ export default function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault()
 
+    
+
     try {
       setError("")
       setLoading(true)
@@ -71,8 +76,35 @@ export default function SignIn() {
     
   }
 
+  function handleGoog(){
+    firebase.auth()
+  .signInWithPopup(provider)
+  .then((result) => {
+    /** @type {firebase.auth.OAuthCredential} */
+    var credential = result.credential;
+
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    var token = credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
+    setLoggedIn(true)
+    window.location.reload()
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+  });
+  
+  }
+
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container component="main" className={classes.root} style={{marginTop:"-3vh"}}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -138,8 +170,17 @@ export default function SignIn() {
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
+              
             </Grid>
           </form>
+          <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+          <div class="google-btn" onClick={handleGoog}>
+            <div class="google-icon-wrapper">
+              <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+            </div>
+            <p class="btn-text" style={{userSelect:'none'}}><b>Sign in with google</b></p>
+          </div>
         </div>
       </Grid>
     </Grid>
