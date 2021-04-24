@@ -35,9 +35,8 @@ class BookIssue extends Component {
     rejectBook(uid, isbn, timestamp){
         firebase.database().ref('books').child(isbn).child('availability')
         .transaction((searches)=> {
-            if (searches) {
+            
               searches = searches + 1;
-            }
             return searches;
           });
         firebase.database().ref('requests').child(timestamp).child('status').set("rejected")
