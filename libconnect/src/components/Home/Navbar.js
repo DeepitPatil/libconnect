@@ -105,12 +105,14 @@ class Navbar extends Component {
             </li>
             <li classname="nav-item">
             {this.state.email!=="error" && <Button buttonStyle='btn--outline' onClick={()=>{
-              firebase.auth().signOut();
-              localStorage.setItem('email', "error");
-              localStorage.setItem('uid', "error");
-              localStorage.setItem('type', 'error')
-              this.setState({email: "error", uid: "error", type: "error", loggedout: true})
-              //window.location.reload()
+              firebase.auth().signOut().then(()=>{
+                localStorage.setItem('email', "error");
+                localStorage.setItem('uid', "error");
+                localStorage.setItem('type', 'error')
+                this.setState({email: "error", uid: "error", type: "error", loggedout: true})
+                window.location.reload()
+              })
+              
               }} >LOG OUT</Button>}
             </li>
           </ul>

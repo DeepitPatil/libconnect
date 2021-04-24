@@ -258,6 +258,9 @@ class BookInfo extends Component {
                                     {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian" || localStorage.getItem('type')==="member") && <Button variant="success" style={{marginTop:"20px"}} onClick={()=>{
                                         const t = Date.now();
                                         const DatabaseRef = firebase.database().ref("books").child(this.props.match.params.isbn).child("reviews");
+                                        if(this.state.userrating === 0){
+                                            window.alert("Please choose a rating.")
+                                        }else{
                                         DatabaseRef.child(t).child("rating").set(this.state.userrating);
                                         DatabaseRef.child(t).child("email").set(localStorage.getItem('email'));
                                         DatabaseRef.child(t).child("uid").set(localStorage.getItem('uid'));
@@ -269,7 +272,7 @@ class BookInfo extends Component {
                                         firebase.database().ref('books').child(this.props.match.params.isbn).child('rating').set(newRat)
                                         this.setState({revreq: false, rev: true, rating: newRat, numreviews: (this.state.numreviews+1),
                                         })
-                                        window.location.reload()
+                                        window.location.reload()}
                                     }}>Publish Review</Button>}
                                     {(localStorage.getItem('type')==="admin" || localStorage.getItem('type')==="librarian" || localStorage.getItem('type')==="member") && <Button variant="danger" style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>this.setState({revreq: false})}>Cancel</Button> }
                                     
