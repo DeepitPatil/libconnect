@@ -81,7 +81,11 @@ The home page includes the **Search Bar**, **Genre Filter** & the thumbnails of 
 <a name="book-info-page"/>
 
 ## Book Info Page
-When the user clicks on a book in the **Home Page**, he/she will be taken to that book's info page. In this page, the user can view the book’s details like title, author, publisher, genre, summary, ISBN, location, availability, rating, etc. The user can also publish a book review and rating and can also view other users' reviews and ratings. In this page, the user can also request to borrow a book, can view his/her request status, return date, etc. **Only members are allowed to request to borrow a book**. **Only admins and librarians can edit ad delete the book**. **Each user can only publish one review**. **Only admins are allowed to delete book reviews**.
+When the user clicks on a book in the **Home Page**, he/she will be taken to that book's info page. In this page, the user can view the book’s details like title, author, publisher, genre, summary, ISBN, location, availability, rating, etc. The user can also publish a book review and rating and can also view other users' reviews and ratings. In this page, the user can also request to borrow a book, can view his/her request status, return date, etc.
+* **Only members are allowed to request to borrow a book**.
+* **Only admins and librarians can edit ad delete the book**.
+* **Each user can only publish one review**.
+* **Only admins are allowed to delete book reviews**.
 <br/><br/>
 <img src="screenshots/book_info_1.png">
 <img src="screenshots/book_info_2.png">
