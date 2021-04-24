@@ -76,7 +76,7 @@ export default function Home(props){
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                <Dropdown.Item href={"s="+search+""}>All Genre</Dropdown.Item>
+                <Dropdown.Item href={"s="+search+""}>All Genrecd</Dropdown.Item>
                   <Dropdown.Item href={"s="+search+"&&g=Action & Adventure"}>Action & Adventure</Dropdown.Item>
                   <Dropdown.Item href={"s="+search+"&&g=Biography"}>Biography</Dropdown.Item>
                   <Dropdown.Item href={"s="+search+"&&g=Children"}>Children</Dropdown.Item>

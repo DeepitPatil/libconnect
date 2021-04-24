@@ -51,7 +51,13 @@ class BookInfo extends Component {
 
     handleDelete(usersRating, timestamp){
         if(window.confirm("Are you sure you want to delete this review? This action is irreversible.")){
-            var oldRat = (this.state.numreviews*this.state.rating-usersRating)/(this.state.numreviews-1)
+            var oldRat;
+            if(this.state.numreviews!==1) {
+                oldRat = (this.state.numreviews*this.state.rating-usersRating)/(this.state.numreviews-1)
+            }
+            else{
+                oldRat = 0
+            }
             firebase.database().ref("books").child(this.props.match.params.isbn).child("rating").set(oldRat)
             firebase.database().ref('books').child(this.props.match.params.isbn).child('numreviews').set(this.state.numreviews-1)
             firebase.database().ref("books").child(this.props.match.params.isbn).child("reviews").child(timestamp).remove()
@@ -127,28 +133,29 @@ class BookInfo extends Component {
                  });
             });
         });
-
+        if(localStorage.getItem('type')==="member" || localStorage.getItem('type')==="librarian" || localStorage.getItem('type')==="admin"){
         const dataRef = firebase.database().ref("users").child(localStorage.getItem('uid')).child("books")
         dataRef.once("value")
         .then((snapshot)=> {
           if(snapshot.hasChild(this.state.isbn)){
             this.setState({status: snapshot.child(this.state.isbn).child("status").val(), returnBy:snapshot.child(this.state.isbn).child("date").val(), timestamp:snapshot.child(this.state.isbn).child("createdAt").val()})
           }})
+        }
     }
     
            render() {
                return(
                    <div style={{display:"flex", flexDirection:"column"}}>
-                        <div style={{ display: "flex", flexDirection:"row", justifyContent: "space-evenly"}}>
+                        <div style={{ display: "flex", flexDirection:"row", justifyContent: "space-evenly", marginTop:"50px"}}>
                         <img
-                                style={{width:"30vw", height:'48vw', marginTop:"50px", borderRadius:"15px", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", WebkitFilter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017))", filter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017)"
+                                style={{width:"30vw", height:'48vw', borderRadius:"15px", boxShadow: "0 6px 20px rgba(56, 125, 255, 0.17)", WebkitFilter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017))", filter:"drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017)"
                             }}
                                 alt='Book Cover'
                                 src={this.state.coverurl}
                                 />
                                 {this.state.red && <Redirect to="/home/s="/>}
                                 {this.state.red2 && <Redirect to={"/edit/"+this.state.isbn}/>}
-                            <p style={{margin: "50px 0 0 0", maxWidth: "40vw"}}>
+                            <p style={{ maxWidth: "40vw"}}>
                                 <h1 style={{textAlign: "left"}}>{this.state.title}</h1>
                                 <h3>{"by "+this.state.author}</h3><br/>
                                 {this.state.numreviews===0 && <p><h5>No reviews yet</h5><br/></p>}

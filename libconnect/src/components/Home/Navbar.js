@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component } from 'react';
 import { Button } from './Button';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext'
 import firebase from '../../firebase'
 import "firebase/database";
@@ -62,6 +62,7 @@ class Navbar extends Component {
     <>
       <nav className='navbar'>
         <div className='navbar-container'>
+          {this.state.loggedOut && <Redirect to="/home/s=" />}
           <Link to='/home/s='><img src="https://i.pinimg.com/564x/cb/cd/13/cbcd13e56456b549cfeee170dce94d7c.jpg" style={{marginLeft:"10px",width:"90px", filter:"invert(1) grayscale()"}} /></Link>
           <Link to='/home/s=' className='navbar-logo' style={{ textDecoration: 'none', color: 'white', marginLeft:"0px" }}>
             LibConnect
@@ -109,7 +110,7 @@ class Navbar extends Component {
               localStorage.setItem('uid', "error");
               localStorage.setItem('type', 'error')
               this.setState({email: "error", uid: "error", type: "error", loggedout: true})
-              window.location.reload()
+              //window.location.reload()
               }} >LOG OUT</Button>}
             </li>
           </ul>
