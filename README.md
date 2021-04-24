@@ -62,11 +62,11 @@ When a user makes a new account, by default the role set as a ```member```. The 
 ## Access to features based on role
 
 * A non-member or a banned-member can only see the **Home** tab in the navigation bar.
-<img src="screenshots/nonmember_navbar.png"> 
+<img src="screenshots/nonmember_navbar.png"> <br/>
 * A ```member``` can see the **Home** tab along with his/her **Account** tab.
-<img src="screenshots/member_navbar.png"> 
+<img src="screenshots/member_navbar.png"> <br/>
 * A ```librarian``` can see the **Home** tab, **Librarian** tab & the **Account** tab.
-<img src="screenshots/librarian_navbar.png"> 
+<img src="screenshots/librarian_navbar.png"> <br/>
 * An ```admin``` can see the **Home** tab, **Admin** tab, **Librarian** tab & the **Account** tab.
 <img src="screenshots/admin_navbar.png"> 
 <br/>
@@ -74,6 +74,7 @@ When a user makes a new account, by default the role set as a ```member```. The 
 
 ## Home Page
 The home page includes the **Search Bar**, **Genre Filter** & the thumbnails of all books along with the title and author. The **Search Bar** & **Genre Filter** can be used together to search for a book ina particular genre.
+<br/><br/>
 <img src="screenshots/home_page_1.png"> 
 <img src="screenshots/home_page_2.png"> 
 
@@ -81,7 +82,7 @@ The home page includes the **Search Bar**, **Genre Filter** & the thumbnails of 
 
 ## Book Info Page
 When the user clicks on a book in the **Home Page**, he/she will be taken to that book's info page. In this page, the user can view the book’s details like title, author, publisher, genre, summary, ISBN, location, availability, rating, etc. The user can also publish a book review and rating and can also view other users' reviews and ratings. In this page, the user can also request to borrow a book, can view his/her request status, return date, etc. **Only members are allowed to request to borrow a book**. **Only admins and librarians can edit ad delete the book**. **Each user can only publish one review**. **Only admins are allowed to delete book reviews**.
-<br/>
+<br/><br/>
 <img src="screenshots/book_info_1.png">
 <img src="screenshots/book_info_2.png">
 <img src="screenshots/review_1.png">
@@ -91,7 +92,7 @@ When the user clicks on a book in the **Home Page**, he/she will be taken to tha
 
 ## Librarian Tab
 The Librarian tab allows ```librarians``` and ```admins``` to add new books to the library and also accept and reject borrow requests made by members.
-<br/>
+<br/><br/>
 <img src="screenshots/librarian.png">
 <img src="screenshots/add_book.png">
 <img src="screenshots/book_issue.png">
@@ -99,11 +100,11 @@ The Librarian tab allows ```librarians``` and ```admins``` to add new books to t
 
 ## Admin Tab
 The Admin tab allows  ```admins``` to manage accounts and change the roles of other users. The ```admins``` an also ban/unban other users.
-<br/>
+<br/><br/>
 <img src="screenshots/admin.png">
 <a name="account-tab"/>
 
 ## Account Tab
 The Account tab tab shows all the account info including **Email**, **Role**, **User ID** & **User History**. The **User History** shows all requests made by the user along with the request status in chronological order.
-<br/>
+<br/><br/>
 <img src="screenshots/account.png">
