@@ -2,6 +2,7 @@
 
 LibConnect is a react web application which facilitates easy library management incuding the issuance of books.
 # IMPORTANT
+**For the DESIGN project please open the ```Design``` folder**.</br></br>
 I tried hosting the site but it was extremely buggy. So, I would really appreciate it if you ran it locally.</br>
 1. Firstly, either download my repo or clone it into your device.
 2. Then, in the terminal, change directory to the libconnect folder. ```cd libconnect\``` Please make sure this is the **libconnect** folder which is in the same level as the **screenshots** folder.
